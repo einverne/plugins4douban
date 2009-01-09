@@ -1,9 +1,9 @@
 ﻿/// <reference path="jquery-1.2.6-vsdoc.js" />
 
 // ==UserScript==
-// @name			douban_HUST
-// @namespace		douban_HUST
-// @version			v0.2
+// @name			HUSTLib_Douban
+// @namespace		HUSTLib_Douban
+// @version			v0.1
 // @include			http://www.douban.com/subject/*
 // @include			http://www.douban.com/isbn/*
 // @author			freefcw@gmail.com

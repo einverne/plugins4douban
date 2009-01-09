@@ -5,7 +5,6 @@
 // @namespace		VeryCD_Douban
 // @version			v0.1
 // @include			http://www.douban.com/subject/*
-// @include			http://www.douban.com/isbn/*
 // @author			xushengs@gmail.com
 // 2009-01-09 Adds Ajax to get download info from VeryCD.com.
 //

@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name			VeryCD_Douban
 // @namespace		VeryCD_Douban
-// @version			v0.1
+// @version			v0.11
 // @include			http://www.douban.com/subject/*
 // @author			xushengs@gmail.com
 // 2009-01-09 Adds Ajax to get download info from VeryCD.com.
@@ -114,7 +114,7 @@ var Douban4HUST = new function() {
         var l = _records.length;
         s.push('<h2>VeryCD上有下载的?·  ·  ·  ·  ·  · </h2>');
         s.push('<div class="indent">');
-        s.push(['<h4 style="margin-bottom:2px;"><a href="', _link, '" target="_blank">全部(', l, ')</a> ', _cataLinks, '</h4>'].join(''));
+        s.push(['<h4 style="margin-bottom:2px;"><a href="', _link, '" target="_blank">全部(', l > 9 ? '10+' : l, ')</a> ', _cataLinks, '</h4>'].join(''));
         if (l > 0) {
             s.push('<ul class="bs">');
             for (var i = 0; i < l; i++) {

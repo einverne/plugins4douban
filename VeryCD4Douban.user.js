@@ -3,10 +3,12 @@
 // ==UserScript==
 // @name			VeryCD_Douban
 // @namespace		VeryCD_Douban
-// @version			v0.11
+// @version			v0.2.0
 // @include			http://www.douban.com/subject/*
 // @author			xushengs@gmail.com
-// 2009-01-09 Adds Ajax to get download info from VeryCD.com.
+// @modified        2009-01-10
+// @creation        2009-01-09
+// @description     get downloading information from VeryCD.com.
 //
 // ==/UserScript==
 
@@ -21,16 +23,17 @@ if (typeof unsafeWindow.jQuery !== "undefined") {
     var $ = jQuery;
 }
 
-var Douban4HUST = new function() {
+var VeryCD4Douban = new function() {
     var _records = [];
     var _title = '', _link = '';
+    var _total = 0;
     var _host = 'http://www.verycd.com';
     var _extLinkPrefix = 'http://www.verycd.com/search/folders/';
     var _errorCover = 'http://statics.verycd.com/images/spacer-75x75.jpg';
     var _cataLinks = '';
     var _itemTpl = ['<div class="ul" style="margin-bottom:4px;"/>',
                     '<div class="ll">',
-		                '<a href="${link}" target="_blank"><img class="pil" alt="${title}" src="${cover}" onerror="${blank}" /></a>',
+		                '<a href="${link}" target="_blank"><img class="pil" alt="${title}" src="${cover}" onerror="this.src=\'${blank}\'" /></a>',
 	                '</div>',
 	                '<div style="padding-left:60px">',
 		                '<a href="${link}" target="_blank">${title}</a><br>',
@@ -55,12 +58,13 @@ var Douban4HUST = new function() {
         var r = res.match(p);
         var cs = '';
         if (r) {
-            p = /<a\s+.*?<\/a>/img;
+            p = /<a\s+.*?\((\d+)\).*?<\/a>/img;
             cs = r[0];
             var cata = p.exec(cs);
             var chtml = [];
             while (cata) {
                 chtml.push(cata[0].replace(/href="(.*?)"/, 'href="' + _host + '$1" target="_blank"'));
+                _total += parseInt(cata[1]);
                 cata = p.exec(cs);
             }
             _cataLinks = chtml.join(' ');
@@ -104,7 +108,6 @@ var Douban4HUST = new function() {
         }
 
         $('#tablerm').prepend(_getHtml());
-        //document.body.innerHTML = _getHtml();
     }
 
     // gernerate html
@@ -112,14 +115,25 @@ var Douban4HUST = new function() {
         _link = _extLinkPrefix + encodeURIComponent(_title);
         var s = [];
         var l = _records.length;
+        s.push('<script type="text/javascript">');
+        s.push('var showing = false;');
+        s.push('function _verycd_toggle(o){ var m = document.getElementById("_verycd_more"); if(showing){ m.style.display="none"; o.innerHTML = "显示更多..."; }else{ m.style.display=""; o.innerHTML = "收起"; } showing = !showing; }');
+        s.push('</script>');
         s.push('<h2>VeryCD上有下载的?·  ·  ·  ·  ·  · </h2>');
         s.push('<div class="indent">');
-        s.push(['<h4 style="margin-bottom:2px;"><a href="', _link, '" target="_blank">全部(', l > 9 ? '10+' : l, ')</a> ', _cataLinks, '</h4>'].join(''));
+        s.push(['<div style="margin-bottom:2px;background:#"><a href="', _link, '" target="_blank">全部(', _total, ')</a> ', _cataLinks, '</div>'].join(''));
         if (l > 0) {
             s.push('<ul class="bs">');
-            for (var i = 0; i < l; i++) {
+            for (var i = 0; i < 3; i++) {
                 s.push(_itemTpl.process(_records[i]));
             }
+            s.push('<span id="_verycd_more" style="display:none">');
+            while (i < l) {
+                s.push(_itemTpl.process(_records[i]));
+                i++;
+            }
+            s.push('</span>');
+            s.push('<a href="javascript:void(0)" onclick="_verycd_toggle(this)">显示更多...</a>');
             s.push('</ul>');
         }
         s.push('</div></br>');
@@ -144,8 +158,15 @@ var Douban4HUST = new function() {
     // start to collect info
     function _start() {
         var _tab = $('#nav a.now span').text();
-        if (_tab == '音乐' || _tab == '电影') {
-            _title = $('h1').text().split(' ')[0];
+        switch (_tab) {
+            case '音乐':
+                _title = $('h1').text();
+                break;
+            case '电影':
+                _title = $('h1').text().split(' ')[0];
+                break;
+        }
+        if (_tab != '') {
             _request();
         }
     }

@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name			HUSTLib_Douban
 // @namespace		HUSTLib_Douban
-// @version			v0.1
+// @version			v0.1.1
 // @include			http://www.douban.com/subject/*
 // @include			http://www.douban.com/isbn/*
 // @author			freefcw@gmail.com
@@ -15,7 +15,7 @@
 
 String.prototype.process = function(o) {
     return this.replace(/\$\{([^\}]+)\}/g, function(a, b) {
-        return o[b];
+        return o ? o[b] : '';
     });
 };
 
@@ -24,7 +24,7 @@ if (typeof unsafeWindow.jQuery !== "undefined") {
     var $ = jQuery;
 }
 
-var Douban4HUST = new function() {
+var HUSTLib4Douban = new function() {
     var _books = [];
     var _isbn = '', _title = '', _link = '';
     var _extLinkTpl = 'http://202.114.9.29/search*chx/${pn}?SEARCH=${pv}';

@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name			VeryCD_Douban
 // @namespace		VeryCD_Douban
-// @version			v0.2.0
+// @version			v0.2.1
 // @include			http://www.douban.com/subject/*
 // @author			xushengs@gmail.com
 // @modified        2009-01-10
@@ -14,7 +14,7 @@
 
 String.prototype.process = function(o) {
     return this.replace(/\$\{([^\}]+)\}/g, function(a, b) {
-        return o[b];
+        return o ? o[b] : '';
     });
 };
 
@@ -146,7 +146,6 @@ var VeryCD4Douban = new function() {
             GM_xmlhttpRequest({
                 method: 'GET',
                 url: _extLinkPrefix + encodeURIComponent(_title),
-                //url: "verycd.htm",
                 headers: {
                     'User-agent': 'Mozilla/4.0 (compatible) VeryCD4Douban'
                 },

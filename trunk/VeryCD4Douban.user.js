@@ -166,7 +166,7 @@ var VeryCD4Douban = new function() {
                 _title = $('h1').text().split(' ')[0];
                 break;
         }
-        if (_tab != '') {
+        if (_title != '') {
             _request();
         }
     }

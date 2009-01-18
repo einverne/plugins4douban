@@ -3,10 +3,10 @@
 // ==UserScript==
 // @name			VeryCD_Douban
 // @namespace		VeryCD_Douban
-// @version			v0.2.1
+// @version			v0.2.2
 // @include			http://www.douban.com/subject/*
 // @author			xushengs@gmail.com
-// @modified        2009-01-10
+// @modified        2009-01-18
 // @creation        2009-01-09
 // @description     get downloading information from VeryCD.com.
 //
@@ -54,7 +54,7 @@ var VeryCD4Douban = new function() {
     function _analyse(res) {
         res = res.responseText;
         // get category information
-        var p = /<p\s+id="tags\-list">[^$]*?<\/p>/im;
+        var p = /<ul\s+class="classIndex">[^$]*?<\/ul>/im;
         var r = res.match(p);
         var cs = '';
         if (r) {

@@ -9,9 +9,9 @@
   
   == 下载 ==
   
-  最近更新：2009-1-10 19:30
+  最近更新：2009-1-18 10:30
 
-  [http://plugins4douban.googlecode.com/files/VeryCD4Douban-0.2.1.user.js VeryCD4Douban.user.js]
+  [http://plugins4douban.googlecode.com/files/VeryCD4Douban-0.2.2.user.js VeryCD4Douban.user.js]
   
   == 效果截图 ==
   
@@ -19,6 +19,10 @@
   
   
   == 更新历史 ==
+  
+  === 2009-1-18 10:30, v0.2.2 ===
+  
+  * VeryCD搜索页面结构做了细小的变化，稍作相应修改
   
   === 2009-1-10 19:30, v0.2.1 ===
   

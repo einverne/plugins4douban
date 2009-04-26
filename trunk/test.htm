@@ -3,10 +3,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Test Lib</title>
-    <script type="text/javascript" src="jquery-1.2.6-vsdoc.js"></script>
-    <script type="text/javascript" src="VeryCD4Douban.user.js"></script>
+    <!--script type="text/javascript" src="jquery-1.2.6-vsdoc.js"></script>
+    <script type="text/javascript" src="VeryCD4Douban.user.js"></script-->
+<script type="text/javascript" src="gears_init.js"></script>
+<script type="text/javascript">
+    var options = {
+        'url': 'http://1986.appspot.com/douban/proxy.js',
+        'type': 'GET'
+    };
+    
+    var workerPool = google.gears.factory.create('beta.workerpool');
+
+    workerPool.onmessage = function(a, b, message) {
+        alert('received: ' + message.body);
+        var data = eval("(" + message.body + ")");
+        alert(data);
+    };
+
+    var childWorkerId = workerPool.createWorkerFromUrl('http://g.com/appengine/guestbook/douban/proxy.js');
+    workerPool.sendMessage(options, childWorkerId);
+</script>
 </head>
 <body>
-
 </body>
 </html>

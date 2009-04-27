@@ -64,7 +64,9 @@
                 i++;
             }
             s.push('</span>');
-            s.push('<a id="_ebook4douban_btn" href="javascript:void(0)">显示更多...</a>');
+            if(l > 3){
+            	s.push('<a id="_ebook4douban_btn" href="javascript:void(0)">显示更多...</a>');
+            }
             s.push('</ul>');
         }
         s.push('</div></br>');

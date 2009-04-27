@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name			VeryCD_Douban
 // @namespace		VeryCD_Douban
-// @version			v0.2.2
+// @version			v0.2.3
 // @include			http://www.douban.com/subject/*
 // @author			xushengs@gmail.com
 // @modified        2009-01-18
@@ -133,7 +133,9 @@ var VeryCD4Douban = new function() {
                 i++;
             }
             s.push('</span>');
-            s.push('<a href="javascript:void(0)" onclick="_verycd_toggle(this)">显示更多...</a>');
+            if(l > 3){
+            	s.push('<a href="javascript:void(0)" onclick="_verycd_toggle(this)">显示更多...</a>');
+            }
             s.push('</ul>');
         }
         s.push('</div></br>');

@@ -124,7 +124,7 @@ var VeryCD4Douban = new function() {
         s.push(['<div style="margin-bottom:2px;background:#"><a href="', _link, '" target="_blank">全部(', _total, ')</a> ', _cataLinks, '</div>'].join(''));
         if (l > 0) {
             s.push('<ul class="bs">');
-            for (var i = 0; i < 3; i++) {
+            for (var i = 0; i < 3 && i < l; i++) {
                 s.push(_itemTpl.process(_records[i]));
             }
             s.push('<span id="_verycd_more" style="display:none">');

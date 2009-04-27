@@ -65,7 +65,7 @@ var EBook4Douban = new function() {
         var l = _books.length;
         if (l > 0) {
             s.push('<ul class="bs">');
-            for (var i = 0; i < 3; i++) {
+            for (var i = 0; i < 3 && i < l; i++) {
                 s.push(_itemTpl.process(_books[i]));
             }
             s.push('<span id="_ebook_more" style="display:none">');

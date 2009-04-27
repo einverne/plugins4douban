@@ -8,19 +8,18 @@
 <script type="text/javascript" src="gears_init.js"></script>
 <script type="text/javascript">
     var options = {
-        'url': 'http://1986.appspot.com/douban/proxy.js',
+        'url': 'http://1986.appspot.com/',
         'type': 'GET'
     };
     
     var workerPool = google.gears.factory.create('beta.workerpool');
 
     workerPool.onmessage = function(a, b, message) {
-        alert('received: ' + message.body);
-        var data = eval("(" + message.body + ")");
-        alert(data);
+        //alert('received: ' + message.body);
+        document.write(message.body);
     };
 
-    var childWorkerId = workerPool.createWorkerFromUrl('http://g.com/appengine/guestbook/douban/proxy.js');
+    var childWorkerId = workerPool.createWorkerFromUrl('http://ajaxproxy.appspot.com/gears/gears_proxy.js');
     workerPool.sendMessage(options, childWorkerId);
 </script>
 </head>

@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name			EBook_Douban
 // @namespace		EBook_Douban
-// @version			v0.1.0
+// @version			v0.1.1
 // @include			http://www.douban.com/subject/*
 // @author			xushengs@gmail.com
 // @modified        2009-01-10
@@ -74,7 +74,9 @@ var EBook4Douban = new function() {
                 i++;
             }
             s.push('</span>');
-            s.push('<a href="javascript:void(0)" onclick="_ebook_toggle(this)">显示更多...</a>');
+            if(l > 3){
+            	s.push('<a href="javascript:void(0)" onclick="_ebook_toggle(this)">显示更多...</a>');
+            }
             s.push('</ul>');
         }
         s.push('</div></br>');

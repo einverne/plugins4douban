@@ -6,7 +6,7 @@
 // @version			v0.2.3
 // @include			http://www.douban.com/subject/*
 // @author			xushengs@gmail.com
-// @modified        2009-01-18
+// @modified        2009-08-17
 // @creation        2009-01-09
 // @description     get downloading information from VeryCD.com.
 //
@@ -24,14 +24,12 @@ if (typeof unsafeWindow.jQuery !== "undefined") {
 }
 
 var VeryCD4Douban = new function() {
-    var _records = [];
-    var _title = '', _link = '';
-    var _total = 0;
-    var _host = 'http://www.verycd.com';
-    var _extLinkPrefix = 'http://www.verycd.com/search/folders/';
-    var _errorCover = 'http://statics.verycd.com/images/spacer-75x75.jpg';
-    var _cataLinks = '';
-    var _itemTpl = ['<div class="ul" style="margin-bottom:4px;"/>',
+    var _records = [], _title = '', _link = '', _total = 0,
+        _host = 'http://www.verycd.com',
+        _extLinkPrefix = 'http://www.verycd.com/search/folders/',
+        _errorCover = 'http://statics.verycd.com/images/spacer-75x75.jpg',
+        _cataLinks = '',
+        _itemTpl = ['<div class="ul" style="margin-bottom:4px;"/>',
                     '<div class="ll">',
 		                '<a href="${link}" target="_blank"><img class="pil" alt="${title}" src="${cover}" onerror="this.src=\'${blank}\'" /></a>',
 	                '</div>',
@@ -43,11 +41,13 @@ var VeryCD4Douban = new function() {
 
     // internal object
     function Record() {
-        this.title = '';
-        this.cover = '';
-        this.link = '';
-        this.info = '';
-        this.blank = _errorCover;
+        with (this) {
+            title = '[标题解析失败]';
+            cover = '';
+            link = '';
+            info = '';
+            blank = _errorCover;
+        }
     }
 
     // analysis
@@ -107,7 +107,8 @@ var VeryCD4Douban = new function() {
             }
         }
 
-        $('#tablerm').prepend(_getHtml());
+        var dp = $($('div.aside')[0]);
+        dp && dp.prepend(_getHtml());
     }
 
     // gernerate html
@@ -124,7 +125,7 @@ var VeryCD4Douban = new function() {
         s.push(['<div style="margin-bottom:2px;background:#"><a href="', _link, '" target="_blank">全部(', _total, ')</a> ', _cataLinks, '</div>'].join(''));
         if (l > 0) {
             s.push('<ul class="bs">');
-            for (var i = 0; i < 3 && i < l; i++) {
+            for (var i = 0; i < 3; i++) {
                 s.push(_itemTpl.process(_records[i]));
             }
             s.push('<span id="_verycd_more" style="display:none">');
@@ -133,9 +134,7 @@ var VeryCD4Douban = new function() {
                 i++;
             }
             s.push('</span>');
-            if(l > 3){
-            	s.push('<a href="javascript:void(0)" onclick="_verycd_toggle(this)">显示更多...</a>');
-            }
+            s.push('<a href="javascript:void(0)" onclick="_verycd_toggle(this)">显示更多...</a>');
             s.push('</ul>');
         }
         s.push('</div></br>');

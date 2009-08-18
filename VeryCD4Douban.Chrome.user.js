@@ -1,10 +1,10 @@
 ﻿// ==UserScript==
 // @name			VeryCD_Douban
 // @namespace		VeryCD_Douban
-// @version			v0.1.1
+// @version			v0.1.2
 // @include			http://www.douban.com/subject/*
 // @author			xushengs@gmail.com
-// @modified        2009-08-17
+// @modified        2009-08-18
 // @creation        2009-04-27
 // @description     get downloading information from VeryCD.com.
 // @include         http://www.douban.com/subject/*
@@ -28,7 +28,7 @@
 		                '<a href="${link}" target="_blank"><img class="pil" alt="${title}" src="${cover}" onerror="this.src=\'${blank}\'" /></a>',
 	                '</div>',
 	                '<div style="padding-left:60px">',
-		                '<a href="${link}" target="_blank">${title}</a><br>',
+		                '<a href="${link}" target="_blank">${title}</a>${mark}<br>',
 		                '<div class="pl ll">${info}</div><br>',
 	                '</div>',
 	                '<div class="clear" />'].join('');
@@ -40,6 +40,7 @@
             cover = '';
             link = '';
             info = '';
+            mark = '';
             blank = _errorCover;
         }
     }
@@ -128,10 +129,11 @@
                     record.cover = ls[2];
                 }
                 // get title
-                pt = /<h3><a.*?>(.*?)<\/a><\/h3>/im;
+                pt = /<h3><a.*?>(.*?)<\/a>(.*?)<\/h3>/im;
                 ls = rt.match(pt);
                 if (ls) {
                     record.title = ls[1];
+                    record.mark = ls[2];
                 }
                 // get size
                 pt = /<\/a><br\s*\/>([^$]*?)<\/td>/im;

@@ -9,7 +9,7 @@
   
   == 下载 ==
   
-  最近更新：2009-8-17 10:30
+  最近更新：2009-8-18 16:10
 
   [http://plugins4douban.googlecode.com/files/VeryCD4Douban-0.2.5.user.js VeryCD4Douban.user.js]
   

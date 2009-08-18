@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name			HUSTLib_Douban
 // @namespace		HUSTLib_Douban
-// @version			v0.1.1
+// @version			v0.1.2
 // @include			http://www.douban.com/subject/*
 // @include			http://www.douban.com/isbn/*
 // @author			freefcw@gmail.com
@@ -25,15 +25,15 @@ if (typeof unsafeWindow.jQuery !== "undefined") {
 }
 
 var HUSTLib4Douban = new function() {
-    var _books = [];
-    var _isbn = '', _title = '', _link = '';
-    var _extLinkTpl = 'http://202.114.9.29/search*chx/${pn}?SEARCH=${pv}';
-    var _itemTpl = ['<li>',
-                    '<span style="float:left">&nbsp;索 书 号 : ${index}</span>',
-                    '<span style="float:right">${status}</span>',
-                    '<br />',
-                    '<span style="clear:both">馆藏地点: ${place}</span>',
-                    '</li>'].join('');
+    var _books = [],
+        _isbn = '', _title = '', _link = '',
+        _extLinkTpl = 'http://202.114.9.29/search*chx/${pn}?SEARCH=${pv}',
+        _itemTpl = ['<li>',
+                        '<span style="float:left">&nbsp;索 书 号 : ${index}</span>',
+                        '<span style="float:right">${status}</span>',
+                        '<br />',
+                        '<span style="clear:both">馆藏地点: ${place}</span>',
+                        '</li>'].join('');
 
     // analysis
     function _analyse(res) {
@@ -51,7 +51,8 @@ var HUSTLib4Douban = new function() {
             _link = _extLinkTpl.process({ 'pn': 't', 'pv': encodeURIComponent(_title) });
         }
 
-        $('#tablerm').prepend(_getHtml());
+        var dp = $($('div.aside')[0]);
+        dp && dp.prepend(_getHtml());
     }
 
     // gernerate html

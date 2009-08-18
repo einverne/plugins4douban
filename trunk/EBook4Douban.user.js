@@ -3,10 +3,10 @@
 // ==UserScript==
 // @name			EBook_Douban
 // @namespace		EBook_Douban
-// @version			v0.1.1
+// @version			v0.1.2
 // @include			http://www.douban.com/subject/*
 // @author			xushengs@gmail.com
-// @modified        2009-01-10
+// @modified        2009-08-18
 // @creation        2009-01-10
 // @description     get e-book downloading information from google.com.
 //
@@ -24,14 +24,14 @@ if (typeof unsafeWindow.jQuery !== "undefined") {
 }
 
 var EBook4Douban = new function() {
-    var _books = [];
-    var _isbn = '', _title = '', _link = '';
-    var _extLinkTpl = 'http://www.google.com/cse?cx=004798099194550741737%3Aq_g80ujebkq&ie=UTF-8&q=${key}&sa=Search';
-    var _itemTpl = ['<li>',
-                    '<a href="${link}" target="_blank">${title}</a>',
-                    '<br />',
-                    '来自：${website}',
-                    '</li>'].join('');
+    var _books = [],
+        _isbn = '', _title = '', _link = '',
+        _extLinkTpl = 'http://www.google.com/cse?cx=004798099194550741737%3Aq_g80ujebkq&ie=UTF-8&q=${key}&sa=Search',
+        _itemTpl = ['<li>',
+                        '<a href="${link}" target="_blank">${title}</a>',
+                        '<br />',
+                        '来自：${website}',
+                        '</li>'].join('');
 
     // analysis
     function _analyse(res) {
@@ -48,7 +48,8 @@ var EBook4Douban = new function() {
         }
 
         //document.body.innerHTML = _getHtml();
-        $('#tablerm').prepend(_getHtml());
+        var dp = $($('div.aside')[0]);
+        dp && dp.prepend(_getHtml());
     }
 
     // gernerate html
@@ -74,8 +75,8 @@ var EBook4Douban = new function() {
                 i++;
             }
             s.push('</span>');
-            if(l > 3){
-            	s.push('<a href="javascript:void(0)" onclick="_ebook_toggle(this)">显示更多...</a>');
+            if (l > 3) {
+                s.push('<a href="javascript:void(0)" onclick="_ebook_toggle(this)">显示更多...</a>');
             }
             s.push('</ul>');
         }

@@ -11,15 +11,23 @@
   
   == 下载 ==
   
-  最近更新：2009-1-10 19:30
+  最近更新：2009-8-18 10:00
 
-  [http://plugins4douban.googlecode.com/files/EBook4Douban-0.1.0.user.js EBook4Douban.user.js]
+  [http://plugins4douban.googlecode.com/files/EBook4Douban-0.1.2.user.js EBook4Douban.user.js]
   
   == 效果截图 ==
   
   [http://plugins4douban.googlecode.com/files/ebook_screenshot.gif]
   
   == 更新历史 ==
+  
+  === 2009-8-18 10:30 v0.1.2 ===
+  
+  豆瓣页面结构微调，做相应调整。
+ 
+  === 2009-4-27 22:30 v0.1.1 ===
+  
+  调整显示内容。
   
   === 2009-1-10 19:30 v0.1.0 ===
   

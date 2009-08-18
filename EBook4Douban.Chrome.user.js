@@ -1,10 +1,10 @@
 ﻿// ==UserScript==
 // @name			EBook_Douban
 // @namespace		http://fdream.net
-// @version			v0.1.0
+// @version			v0.1.1
 // @author			xushengs@gmail.com
-// @modified        2009-01-10
-// @creation        2009-01-10
+// @modified        2009-08-18
+// @creation        2009-04-27
 // @description     get e-book downloading information from google.com.
 // @include         http://www.douban.com/subject/*
 // ==/UserScript==
@@ -16,16 +16,15 @@
 			return o ? o[b] : '';
 		});
 	};
-	
-    var _books = [];
-    var _isbn = '', _title = '', _link = '';
-    var _extLinkTpl = 'http://www.google.com/cse?cx=004798099194550741737%3Aq_g80ujebkq&ie=UTF-8&q=${key}&sa=Search';
-    var _itemTpl = ['<li>',
+
+	var _books = [],
+        _isbn = '', _title = '', _link = '',
+        _extLinkTpl = 'http://www.google.com/cse?cx=004798099194550741737%3Aq_g80ujebkq&ie=UTF-8&q=${key}&sa=Search',
+        _itemTpl = ['<li>',
                     '<a href="${link}" target="_blank">${title}</a>',
                     '<br />',
                     '来自：${website}',
-                    '</li>'].join('');
-    window.test = 'asf';
+                    '</li>'].join
 
     var _showing = false;
     function _toggle(){
@@ -88,7 +87,7 @@
         }
 
         //document.body.innerHTML = _getHtml();
-        var container = document.getElementById('tablerm');
+        var container = document.querySelectorAll('div.aside')[0];
         var div = document.createElement('div');
         div.innerHTML = _getHtml();
         container.insertBefore(div, container.childNodes[0]);

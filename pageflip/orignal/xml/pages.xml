@@ -1,0 +1,14 @@
+<content width="420" height="672" hcover="true" transparency="true" prepage="pages/prepage.swf">
+	<page src="pages/1.jpg"	preLoad="true" />
+	<page src="pages/2.jpg" canTear="true" />
+	<page src="pages/3.jpg" preLoad="true" />
+	<page src="pages/4.jpg" preLoad="true" />
+	<page src="pages/5.jpg" canTear="true" preLoad="true" />
+	<page src="pages/6.jpg" preLoad="true" />
+	<page src="pages/7.jpg" preLoad="true" />
+	<page src="pages/8.jpg" preLoad="true" />
+	<page src="pages/9.jpg" preLoad="true" />
+	<page src="pages/10.jpg" preLoad="true" />
+	<page src="pages/11.jpg" preLoad="true" />
+	<page src="pages/12.jpg" preLoad="true" />
+</content>

@@ -3,10 +3,10 @@
 // ==UserScript==
 // @name			VeryCD_Douban
 // @namespace		VeryCD_Douban
-// @version			v0.2.5
+// @version			v0.2.6
 // @include			http://www.douban.com/subject/*
 // @author			xushengs@gmail.com
-// @modified        2009-08-18
+// @modified        2010-02-23
 // @creation        2009-01-09
 // @description     get downloading information from VeryCD.com.
 //
@@ -14,7 +14,7 @@
 
 String.prototype.process = function(o) {
     return this.replace(/\$\{([^\}]+)\}/g, function(a, b) {
-        return o ? o[b] : '';
+        return (o && o[b]) ? o[b] : '';
     });
 };
 
@@ -41,14 +41,12 @@ var VeryCD4Douban = new function() {
 
     // internal object
     function Record() {
-        with (this) {
-            title = '[标题解析失败]';
-            cover = '';
-            link = '';
-            info = '';
-            mark = '';
-            blank = _errorCover;
-        }
+        this.title = '[标题解析失败]';
+        this.cover = '';
+        this.link = '';
+        this.info = '';
+        this.mark = '';
+        this.blank = _errorCover;
     }
 
     // analysis
@@ -83,7 +81,7 @@ var VeryCD4Douban = new function() {
                 var record = new Record();
                 var rt = tr[0];
                 // get page url, image url
-                var pt = /<a\s+.*?href="(.*?)".*?img\s+.*?src="(.*?)".*?<\/a>/im;
+                var pt = /<a\s+.*?href="(.*?)".*?img.*?\s+src="(.*?)".*?<\/a>/im;
                 var ls = rt.match(pt);
                 if (ls) {
                     record.link = ls[1];

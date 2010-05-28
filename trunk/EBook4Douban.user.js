@@ -1,12 +1,10 @@
-﻿/// <reference path="jquery-1.2.6-vsdoc.js" />
-
-// ==UserScript==
+﻿// ==UserScript==
 // @name			EBook_Douban
 // @namespace		EBook_Douban
-// @version			v0.1.2
-// @include			http://www.douban.com/subject/*
+// @version			v0.1.3
+// @include			http://book.douban.com/subject/*
 // @author			xushengs@gmail.com
-// @modified        2009-08-18
+// @modified        2010-05-28
 // @creation        2009-01-10
 // @description     get e-book downloading information from google.com.
 //
@@ -109,10 +107,10 @@ var EBook4Douban = new function() {
 
     // start to collect info
     function _start() {
-        if ($('#nav a.now span').text() == '读书') {
-            _title = $('h1').text();
-            _request();
-        }
+        //if ($('#nav a.now span').text() == '读书') {
+        _title = $($('#wrapper h1')[0]).text();
+        _request();
+        //}
     }
 
     // when dom ready, go!

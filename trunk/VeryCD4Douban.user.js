@@ -1,12 +1,11 @@
-﻿/// <reference path="jquery-1.2.6-vsdoc.js" />
-
-// ==UserScript==
+﻿// ==UserScript==
 // @name			VeryCD_Douban
 // @namespace		VeryCD_Douban
-// @version			v0.2.6
-// @include			http://www.douban.com/subject/*
+// @version			v0.2.7
+// @include			http://movie.douban.com/subject/*
+// @include			http://music.douban.com/subject/*
 // @author			xushengs@gmail.com
-// @modified        2010-02-23
+// @modified        2010-05-28
 // @creation        2009-01-09
 // @description     get downloading information from VeryCD.com.
 //
@@ -31,10 +30,10 @@ var VeryCD4Douban = new function() {
         _cataLinks = '',
         _itemTpl = ['<div class="ul" style="margin-bottom:4px;"/>',
                     '<div class="ll">',
-		                '<a href="${link}" target="_blank"><img class="pil" alt="${title}" src="${cover}" onerror="this.src=\'${blank}\'" /></a>',
+		                '<a href="${link}" target="_blank"><img class="pil" width="48" height="48" alt="${title}" src="${cover}" onerror="this.src=\'${blank}\'" /></a>',
 	                '</div>',
 	                '<div style="padding-left:60px">',
-		                '<a href="${link}" target="_blank">${title}</a>${mark}<br>',
+		                '<a href="${link}" target="_blank">${title}</a><br>',
 		                '<div class="pl ll">${info}</div><br>',
 	                '</div>',
 	                '<div class="clear" />'].join('');
@@ -157,15 +156,7 @@ var VeryCD4Douban = new function() {
 
     // start to collect info
     function _start() {
-        var _tab = $('#nav a.now span').text();
-        switch (_tab) {
-            case '音乐':
-                _title = $('h1').text();
-                break;
-            case '电影':
-                _title = $('h1').text().split(' ')[0];
-                break;
-        }
+		_title = $('h1').text().split(' ')[0];
         if (_title != '') {
             _request();
         }

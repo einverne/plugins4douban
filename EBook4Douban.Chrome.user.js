@@ -1,12 +1,12 @@
 ﻿// ==UserScript==
 // @name			EBook_Douban
 // @namespace		http://fdream.net
-// @version			v0.1.1
+// @version			v0.1.2
 // @author			xushengs@gmail.com
-// @modified        2009-08-18
+// @modified        2010-05-28
 // @creation        2009-04-27
 // @description     get e-book downloading information from google.com.
-// @include         http://www.douban.com/subject/*
+// @include         http://book.douban.com/subject/*
 // ==/UserScript==
 
 (function() {
@@ -112,19 +112,10 @@
 	}
 
 	function _start() {
-		var nav = document.getElementById('nav').getElementsByTagName('a');
-		var txt = '';
-		for (var i = 0; i < nav.length; i++) {
-			if (nav[i].className == 'now') {
-				txt = nav[i].getElementsByTagName('span')[0].textContent;
-			}
-		}
-
-		if (txt == '读书') {
-			_title = document.getElementsByTagName('h1')[0].textContent;
-	        if (_title != '') {
-				_request();
-			}
+		alert('??');
+		_title = document.getElementsByTagName('h1')[0].textContent;
+		if (_title != '') {
+			_request();
 		}
 	}
 

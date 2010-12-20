@@ -1,0 +1,1 @@
+D:\googlecode\pugins4douban\trunk\firefox.extensions\pptv4douban\

@@ -1,0 +1,2 @@
+content     pptv4douban    chrome/content/
+overlay chrome://browser/content/browser.xul chrome://pptv4douban/content/pptv4douban.xul

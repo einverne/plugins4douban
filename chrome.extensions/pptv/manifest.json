@@ -1,0 +1,23 @@
+{
+	"name": "PPTV4Douban",
+	"version": "1.0",
+	"description": "在豆瓣电影页面上显示相关在线观看信息",
+	"background_page": "bg.html",
+	"content_scripts": [
+		{
+			"matches": ["http://movie.douban.com/subject/*"],
+			//"css": ["mystyles.css"],
+			"js": ["main.js"]
+		}
+	],
+	"icons": {
+        "48": "icon_48.gif",
+		"64": "icon_64.gif"
+	},
+	/*"browser_action": {
+		"default_icon": "icon_64.gif"
+	},*/
+	"permissions": [
+		"http://ikan.pptv.com/*"
+	]
+}

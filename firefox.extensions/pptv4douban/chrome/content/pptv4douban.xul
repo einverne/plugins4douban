@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <overlay id="pptv4douban" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
- <script src="pptv4douban.js" />
- <statusbar id="status-bar">
-  <statusbarpanel id="pptv4douban_name" label="Hello, World"  />
- </statusbar>
+	<script src="pptv4douban.js" />
+	<!--statusbar id="status-bar">
+	<statusbarpanel id="pptv4douban_name" label="PPTV for Douban"  />
+	</statusbar-->
 </overlay>

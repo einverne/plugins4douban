@@ -1,0 +1,21 @@
+{
+	"name": "EBook4Douban",
+	"version": "1.0",
+	"description": "在豆瓣读书页面上显示相关电子书下载信息",
+	"background_page": "bg.html",
+	"content_scripts": [
+		{
+			"matches": ["http://book.douban.com/subject/*"],
+			//"css": ["mystyles.css"],
+			"js": ["main.js"]
+		}
+	],
+	"icons": {
+		"16": "icon_16.png",
+        "48": "icon_48.png",
+		"128": "icon_128.png"
+	},
+	"permissions": [
+		"http://*/"
+	]
+}

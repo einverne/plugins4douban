@@ -4,7 +4,7 @@
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
   <Description about="urn:mozilla:install-manifest">
-    <em:id>xushengs@gmail.com</em:id>
+    <em:id>{39083520-0c49-11e0-81e0-0800200c9a66}</em:id>
     <em:version>1.0</em:version>
     <em:type>2</em:type>
     <em:iconURL>chrome://pptv4douban/content/icons/icon_32.png</em:iconURL>

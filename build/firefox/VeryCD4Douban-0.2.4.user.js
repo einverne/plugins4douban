@@ -1,11 +1,12 @@
+﻿/// <reference path="jquery-1.2.6-vsdoc.js" />
+
 // ==UserScript==
 // @name			VeryCD_Douban
 // @namespace		VeryCD_Douban
-// @version			v0.2.8
-// @include			http://movie.douban.com/subject/*
-// @include			http://music.douban.com/subject/*
+// @version			v0.2.4
+// @include			http://www.douban.com/subject/*
 // @author			xushengs@gmail.com
-// @modified        2010-12-12
+// @modified        2009-08-17
 // @creation        2009-01-09
 // @description     get downloading information from VeryCD.com.
 //
@@ -13,7 +14,7 @@
 
 String.prototype.process = function(o) {
     return this.replace(/\$\{([^\}]+)\}/g, function(a, b) {
-        return (o && o[b]) ? o[b] : '';
+        return o ? o[b] : '';
     });
 };
 
@@ -25,12 +26,12 @@ if (typeof unsafeWindow.jQuery !== "undefined") {
 var VeryCD4Douban = new function() {
     var _records = [], _title = '', _link = '', _total = 0,
         _host = 'http://www.verycd.com',
-        _extLinkPrefix = 'http://www.verycd.com/search/folders?kw=',
+        _extLinkPrefix = 'http://www.verycd.com/search/folders/',
         _errorCover = 'http://statics.verycd.com/images/spacer-75x75.jpg',
         _cataLinks = '',
         _itemTpl = ['<div class="ul" style="margin-bottom:4px;"/>',
                     '<div class="ll">',
-		                '<a href="${link}" target="_blank"><img class="pil" width="48" height="48" alt="${title}" src="${cover}" onerror="this.src=\'${blank}\'" /></a>',
+		                '<a href="${link}" target="_blank"><img class="pil" alt="${title}" src="${cover}" onerror="this.src=\'${blank}\'" /></a>',
 	                '</div>',
 	                '<div style="padding-left:60px">',
 		                '<a href="${link}" target="_blank">${title}</a><br>',
@@ -40,29 +41,29 @@ var VeryCD4Douban = new function() {
 
     // internal object
     function Record() {
-        this.title = '[标题解析失败]';
-        this.cover = '';
-        this.link = '';
-        this.info = '';
-        this.mark = '';
-        this.blank = _errorCover;
+        with (this) {
+            title = '[标题解析失败]';
+            cover = '';
+            link = '';
+            info = '';
+            blank = _errorCover;
+        }
     }
 
     // analysis
     function _analyse(res) {
         res = res.responseText;
         // get category information
-        var p = /<div\s+class="left_class_ambit">[^$]*?<\/div>/im;
+        var p = /<ul\s+class="classIndex">[^$]*?<\/ul>/im;
         var r = res.match(p);
         var cs = '';
         if (r) {
-			//<a href="#" onclick="setCF('catalog:音乐');onButtonClick();submit();">音乐(104)</a>
             p = /<a\s+.*?\((\d+)\).*?<\/a>/img;
             cs = r[0];
             var cata = p.exec(cs);
             var chtml = [];
             while (cata) {
-                chtml.push(cata[0].replace(/href="(?:.*?)"\s+.*?onclick=".*'(.*?)'.*?"/i, function(m, a){ return 'href="' + _extLinkPrefix + encodeURIComponent(_title) + '&cf=' + encodeURIComponent(a) + '" target="_blank"';}));
+                chtml.push(cata[0].replace(/href="(.*?)"/, 'href="' + _host + '$1" target="_blank"'));
                 _total += parseInt(cata[1]);
                 cata = p.exec(cs);
             }
@@ -81,18 +82,17 @@ var VeryCD4Douban = new function() {
                 var record = new Record();
                 var rt = tr[0];
                 // get page url, image url
-                var pt = /<a\s+.*?href="(.*?)".*?img.*?\s+src="(.*?)".*?<\/a>/im;
+                var pt = /<a\s+.*?href="(.*?)".*?img\s+.*?src="(.*?)".*?<\/a>/im;
                 var ls = rt.match(pt);
                 if (ls) {
                     record.link = ls[1];
                     record.cover = ls[2];
                 }
                 // get title
-                pt = /<h3><a.*?>(.*?)<\/a>(.*?)<\/h3>/im;
+                pt = /<h3><a.*?>(.*?)<\/a><\/h3>/im;
                 ls = rt.match(pt);
                 if (ls) {
                     record.title = ls[1];
-                    record.mark = ls[2];
                 }
                 // get size
                 pt = /<\/a><br\s*\/>([^$]*?)<\/td>/im;
@@ -157,12 +157,15 @@ var VeryCD4Douban = new function() {
 
     // start to collect info
     function _start() {
-		_title = $('h1').text().replace(/([\r\n]+)|(^\s+)|(\s+$)/gm, '');
-		switch(document.domain){
-			case 'movie.douban.com':
-				_title = _title.split(' ')[0];
-				break;
-		}
+        var _tab = $('#nav a.now span').text();
+        switch (_tab) {
+            case '音乐':
+                _title = $('h1').text();
+                break;
+            case '电影':
+                _title = $('h1').text().split(' ')[0];
+                break;
+        }
         if (_title != '') {
             _request();
         }

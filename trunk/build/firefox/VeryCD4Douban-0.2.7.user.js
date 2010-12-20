@@ -1,11 +1,11 @@
-// ==UserScript==
+﻿// ==UserScript==
 // @name			VeryCD_Douban
 // @namespace		VeryCD_Douban
-// @version			v0.2.8
+// @version			v0.2.7
 // @include			http://movie.douban.com/subject/*
 // @include			http://music.douban.com/subject/*
 // @author			xushengs@gmail.com
-// @modified        2010-12-12
+// @modified        2010-05-28
 // @creation        2009-01-09
 // @description     get downloading information from VeryCD.com.
 //
@@ -25,7 +25,7 @@ if (typeof unsafeWindow.jQuery !== "undefined") {
 var VeryCD4Douban = new function() {
     var _records = [], _title = '', _link = '', _total = 0,
         _host = 'http://www.verycd.com',
-        _extLinkPrefix = 'http://www.verycd.com/search/folders?kw=',
+        _extLinkPrefix = 'http://www.verycd.com/search/folders/',
         _errorCover = 'http://statics.verycd.com/images/spacer-75x75.jpg',
         _cataLinks = '',
         _itemTpl = ['<div class="ul" style="margin-bottom:4px;"/>',
@@ -52,17 +52,16 @@ var VeryCD4Douban = new function() {
     function _analyse(res) {
         res = res.responseText;
         // get category information
-        var p = /<div\s+class="left_class_ambit">[^$]*?<\/div>/im;
+        var p = /<ul\s+class="classIndex">[^$]*?<\/ul>/im;
         var r = res.match(p);
         var cs = '';
         if (r) {
-			//<a href="#" onclick="setCF('catalog:音乐');onButtonClick();submit();">音乐(104)</a>
             p = /<a\s+.*?\((\d+)\).*?<\/a>/img;
             cs = r[0];
             var cata = p.exec(cs);
             var chtml = [];
             while (cata) {
-                chtml.push(cata[0].replace(/href="(?:.*?)"\s+.*?onclick=".*'(.*?)'.*?"/i, function(m, a){ return 'href="' + _extLinkPrefix + encodeURIComponent(_title) + '&cf=' + encodeURIComponent(a) + '" target="_blank"';}));
+                chtml.push(cata[0].replace(/href="(.*?)"/, 'href="' + _host + '$1" target="_blank"'));
                 _total += parseInt(cata[1]);
                 cata = p.exec(cs);
             }
@@ -157,12 +156,7 @@ var VeryCD4Douban = new function() {
 
     // start to collect info
     function _start() {
-		_title = $('h1').text().replace(/([\r\n]+)|(^\s+)|(\s+$)/gm, '');
-		switch(document.domain){
-			case 'movie.douban.com':
-				_title = _title.split(' ')[0];
-				break;
-		}
+		_title = $('h1').text().split(' ')[0];
         if (_title != '') {
             _request();
         }

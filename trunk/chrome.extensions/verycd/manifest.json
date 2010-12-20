@@ -1,0 +1,23 @@
+{
+	"name": "VeryCD4Douban",
+	"version": "1.0",
+	"description": "在豆瓣电影和音乐页面上显示VeryCD上的下载资源",
+	"background_page": "bg.html",
+	"content_scripts": [
+		{
+			"matches": ["http://movie.douban.com/subject/*", "http://music.douban.com/subject/*"],
+			//"css": ["mystyles.css"],
+			"js": ["main.js"]
+		}
+	],
+	"icons": {
+        "48": "icon_48.gif",
+		"64": "icon_64.gif"
+	},
+	/*"browser_action": {
+		"default_icon": "icon_64.gif"
+	},*/
+	"permissions": [
+		"http://*.verycd.com/"
+	]
+}

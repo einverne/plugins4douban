@@ -1,6 +1,6 @@
 (function(){
-	function $(selector, context){
-		return (context || document).querySelectorAll(selector);
+	function $(selector){
+		return document.querySelectorAll(selector);
 	}
 	
 	function sec2str(secs){
@@ -24,9 +24,9 @@
 		var count = data.data.total;
 		data = data.data.videos;
 		var link = search + encodeURIComponent(title.split(' ')[0]);
-		var doc = window.getBrowser().selectedBrowser.contentDocument;
-		var pd = $('div.aside', doc)[0];
-		var nd = doc.createElement('div');
+		
+		var pd = document.querySelectorAll('div.aside')[0];
+		var nd = document.createElement('div');
 		nd.className = 'indent';
 		var html = '<h2>PPTV上有这部电影看？ · · · · · ·</h2>';
 		html += '<div style="display:block;margin-bottom:8px;padding:4px 8px;background:#dfc;border-radius:4px;"><a href="'+link+'" target="_blank">在PPTV上共有<b> '+ count+' </b>个相关结果</a></div>';
@@ -51,44 +51,14 @@
 		nd.innerHTML = html;
 		pd.insertBefore(nd, pd.firstChild);
 	};
-	
-	function request(url){
-		var xhr = new XMLHttpRequest();
-		xhr.open('GET', url, true);
-		xhr.onreadystatechange = function(){
-	        if (xhr.readyState == 4){
-	        	if(xhr.status == 200){
-	        		onLoad(xhr.responseText);
-	        	}
-	        }
-	    };
-		xhr.send(null);
-	}
 
-	function start(evt){
-		var bs = window.getBrowser().selectedBrowser;
-		var doc = bs.contentDocument,
-		    url = bs.currentURI.spec;
-		if(/^https?:\/\/movie.douban.com\/subject\/.*/i.test(url)){
-			title = $('h1 span', doc)[0];
-			title = title ? title.textContent : null;
-			if(title){
-				request(api + encodeURIComponent(title.split(' ')[0]));
-			}
-		}
-		else{
-			//alert(location.href);
-		}
-	}
-
-	function main(evt){
-		window.getBrowser().selectedBrowser.contentDocument.addEventListener( "DOMContentLoaded", start, false);
-	}
-	
-	var title,
-		search = 'http://ikan.pptv.com/search/?kw=',
-		//search = 'http://ikan.pptv.com/search/suggest/?kw=',
+	var title = $('h1 span')[0];
+	title = title ? title.innerText : null;
+	var search = 'http://ikan.pptv.com/search/?kw=',
+	//var search = 'http://ikan.pptv.com/search/suggest/?kw=',
 		api = 'http://ikan.pptv.com/api/openapi/search.json?num=6&kw=';
-		
-	document.addEventListener( "DOMContentLoaded", main, false); 
+	if(title){
+		chrome.extension.sendRequest({'url': api + encodeURIComponent(title.split(' ')[0])}, onLoad);
+	}
+	
 })();

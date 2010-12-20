@@ -1,34 +1,20 @@
-// ==UserScript==
-// @name			VeryCD_Douban
-// @namespace		VeryCD_Douban
-// @version			v0.2.8
-// @include			http://movie.douban.com/subject/*
-// @include			http://music.douban.com/subject/*
-// @author			xushengs@gmail.com
-// @modified        2010-12-12
-// @creation        2009-01-09
-// @description     get downloading information from VeryCD.com.
-//
-// ==/UserScript==
-
-String.prototype.process = function(o) {
-    return this.replace(/\$\{([^\}]+)\}/g, function(a, b) {
-        return (o && o[b]) ? o[b] : '';
-    });
-};
-
-if (typeof unsafeWindow.jQuery !== "undefined") {
-    var jQuery = unsafeWindow.jQuery;
-    var $ = jQuery;
-}
-
-var VeryCD4Douban = new function() {
+(function(){
+	function $(selector){
+		return document.querySelectorAll(selector);
+	}
+	
+	String.prototype.process = function(o) {
+		return this.replace(/\$\{([^\}]+)\}/g, function(a, b) {
+			return (o && o[b]) ? o[b] : '';
+		});
+	};	
+	
     var _records = [], _title = '', _link = '', _total = 0,
         _host = 'http://www.verycd.com',
         _extLinkPrefix = 'http://www.verycd.com/search/folders?kw=',
         _errorCover = 'http://statics.verycd.com/images/spacer-75x75.jpg',
         _cataLinks = '',
-        _itemTpl = ['<div class="ul" style="margin-bottom:4px;"/>',
+        _itemTpl = ['<div class="ul" style="margin-bottom:4px;">',
                     '<div class="ll">',
 		                '<a href="${link}" target="_blank"><img class="pil" width="48" height="48" alt="${title}" src="${cover}" onerror="this.src=\'${blank}\'" /></a>',
 	                '</div>',
@@ -36,7 +22,7 @@ var VeryCD4Douban = new function() {
 		                '<a href="${link}" target="_blank">${title}</a><br>',
 		                '<div class="pl ll">${info}</div><br>',
 	                '</div>',
-	                '<div class="clear" />'].join('');
+	                '<div class="clear"></div></div>'].join('');
 
     // internal object
     function Record() {
@@ -47,10 +33,12 @@ var VeryCD4Douban = new function() {
         this.mark = '';
         this.blank = _errorCover;
     }
-
-    // analysis
-    function _analyse(res) {
-        res = res.responseText;
+		
+	function onLoad(res) {
+		if(!res){
+			return;
+		}
+		
         // get category information
         var p = /<div\s+class="left_class_ambit">[^$]*?<\/div>/im;
         var r = res.match(p);
@@ -106,23 +94,29 @@ var VeryCD4Douban = new function() {
                 tr = p.exec(cs);
             }
         }
-
-        var dp = $($('div.aside')[0]);
-        dp && dp.prepend(_getHtml());
-    }
-
+		
+		var pd = document.querySelectorAll('div.aside')[0];
+		var nd = document.createElement('div');
+		//nd.className = 'indent';
+		var html = _getHtml();
+		nd.innerHTML = html;
+		pd.insertBefore(nd, pd.firstChild)
+		
+		$('#_verycd_toggle')[0].addEventListener('click', _verycd_toggle);
+	};
+		
     // gernerate html
     function _getHtml() {
         _link = _extLinkPrefix + encodeURIComponent(_title);
         var s = [];
         var l = _records.length;
-        s.push('<script type="text/javascript">');
-        s.push('var showing = false;');
-        s.push('function _verycd_toggle(o){ var m = document.getElementById("_verycd_more"); if(showing){ m.style.display="none"; o.innerHTML = "显示更多..."; }else{ m.style.display=""; o.innerHTML = "收起"; } showing = !showing; }');
-        s.push('</script>');
+        //s.push('<script type="text/javascript">');
+        //s.push('var showing = false;');
+        //s.push('function _verycd_toggle(o){ var m = document.getElementById("_verycd_more"); if(showing){ m.style.display="none"; o.innerHTML = "显示更多..."; }else{ m.style.display=""; o.innerHTML = "收起"; } showing = !showing; }');
+        //s.push('</script>');
         s.push('<h2>VeryCD上有下载的?·  ·  ·  ·  ·  · </h2>');
         s.push('<div class="indent">');
-        s.push(['<div style="margin-bottom:2px;background:#"><a href="', _link, '" target="_blank">全部(', _total, ')</a> ', _cataLinks, '</div>'].join(''));
+        s.push(['<div style="margin-bottom:8px;padding:4px 8px;background:#dfc;border-radius:4px;"><a href="', _link, '" target="_blank">全部(', _total, ')</a> ', _cataLinks, '</div>'].join(''));
         if (l > 0) {
             s.push('<ul class="bs">');
             for (var i = 0; i < 3; i++) {
@@ -134,40 +128,25 @@ var VeryCD4Douban = new function() {
                 i++;
             }
             s.push('</span>');
-            s.push('<a href="javascript:void(0)" onclick="_verycd_toggle(this)">显示更多...</a>');
+            s.push('<a id="_verycd_toggle" href="javascript:void(0)">显示更多...</a>');
             s.push('</ul>');
         }
-        s.push('</div></br>');
+        s.push('</div>');
         return s.join('');
     }
 
-    // send a request
-    function _request() {
-        setTimeout(function() {
-            GM_xmlhttpRequest({
-                method: 'GET',
-                url: _extLinkPrefix + encodeURIComponent(_title),
-                headers: {
-                    'User-agent': 'Mozilla/4.0 (compatible) VeryCD4Douban'
-                },
-                onload: _analyse
-            })
-        }, 500);
-    }
-
-    // start to collect info
-    function _start() {
-		_title = $('h1').text().replace(/([\r\n]+)|(^\s+)|(\s+$)/gm, '');
-		switch(document.domain){
-			case 'movie.douban.com':
-				_title = _title.split(' ')[0];
-				break;
-		}
-        if (_title != '') {
-            _request();
-        }
-    }
-
-    // when dom ready, go!
-    $(document).ready(_start);
-} ();
+	_title = $('h1 span')[0];
+	_title = _title ? _title.innerText : null;	
+	switch(document.domain){
+		case 'movie.douban.com':
+			_title = _title.split(' ')[0];
+			break;
+	}
+	if (_title != '') {
+		chrome.extension.sendRequest({'url': _extLinkPrefix + encodeURIComponent(_title)}, onLoad);
+	}
+	
+	function _verycd_toggle(evt){ var o = this; var m = document.getElementById("_verycd_more"); if(this.showing){ m.style.display="none"; o.innerHTML = "显示更多..."; }else{ m.style.display=""; o.innerHTML = "收起"; } this.showing = !this.showing; }
+	_verycd_toggle.showing = false;
+	//window._verycd_toggle = _verycd_toggle;
+})();

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>xushengs@gmail.com</em:id>
+    <em:version>1.0</em:version>
+    <em:type>2</em:type>
+    <em:iconURL>chrome://pptv4douban/content/icons/icon_32.png</em:iconURL>
+    <em:icon64URL>chrome://pptv4douban/content/icons/icon_64.png</em:icon64URL>
+
+    <!-- Target Application this extension can install into, 
+         with minimum and maximum supported versions. --> 
+    <em:targetApplication>
+      <Description>
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>1.5</em:minVersion>
+        <em:maxVersion>5.0.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+   
+    <!-- Front End MetaData -->
+    <em:name>PPTV4Douban</em:name>
+    <em:description>在豆瓣电影上显示PPTV上的观看链接</em:description>
+    <em:creator>Fdream</em:creator>
+    <em:homepageURL>http://www.pptv.com/</em:homepageURL>
+  </Description>      
+</RDF>
